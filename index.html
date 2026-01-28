@@ -2,185 +2,354 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Grand Country Penal Calculator - Kalkulator Denda dan Waktu Penjara">
-    <meta name="theme-color" content="#1a73e8">
-    <title>GCPD Penal Calculator</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grand Country Penal Calculator</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 0;
+            padding: 20px;
+            position: relative;
             overflow-x: hidden;
         }
-        
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 15px;
+
+        /* Background Logo dengan Opacity */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background-image: url('assets/img/gcpd_logo.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.08;
+            z-index: 0;
+            pointer-events: none;
         }
-        
-        /* Header */
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
         .header {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 30px;
             margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
         }
-        
-        .logo {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+        .logo-container {
+            width: 80px;
+            height: 80px;
+            background: rgba(26, 115, 232, 0.1);
             border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            color: white;
-            font-weight: bold;
             flex-shrink: 0;
         }
-        
-        .header-text h1 {
-            font-size: 20px;
-            color: #333;
+
+        .logo-container img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+        }
+
+        .logo-text {
+            font-size: 36px;
+            font-weight: bold;
+            color: #1A73E8;
+        }
+
+        .title-section {
+            flex: 1;
+        }
+
+        .title-section h1 {
+            font-size: 32px;
+            color: #202124;
             margin-bottom: 5px;
         }
-        
-        .header-text p {
-            font-size: 13px;
-            color: #666;
+
+        .title-section p {
+            color: #5F6368;
+            font-size: 14px;
         }
-        
-        /* Input Section */
-        .input-section {
-            background: white;
+
+        .main-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
         }
-        
-        .input-section label {
-            display: block;
-            font-size: 14px;
-            color: #333;
-            margin-bottom: 10px;
-            font-weight: 600;
+
+        .search-container {
+            margin-bottom: 25px;
         }
-        
-        .input-wrapper {
-            position: relative;
-            margin-bottom: 15px;
-        }
-        
-        .input-wrapper input {
-            width: 100%;
-            padding: 15px 45px 15px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 16px;
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 2px solid #DADCE0;
+            border-radius: 50px;
+            padding: 12px 20px;
             transition: all 0.3s;
         }
-        
-        .input-wrapper input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+
+        .search-box:focus-within {
+            border-color: #1A73E8;
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.15);
         }
-        
-        .clear-btn {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: #f5f5f5;
+
+        .search-icon {
+            font-size: 20px;
+            margin-right: 10px;
+            color: #5F6368;
+        }
+
+        #inputCode {
+            flex: 1;
             border: none;
+            outline: none;
+            font-size: 16px;
+            color: #202124;
+        }
+
+        #inputCode::placeholder {
+            color: #5F6368;
+        }
+
+        .helper-text {
+            color: #5F6368;
+            font-size: 13px;
+            margin-top: 10px;
+            margin-left: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background: #1A73E8;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1557B0;
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #F1F3F4;
+            color: #202124;
+        }
+
+        .btn-secondary:hover {
+            background: #E8EAED;
+            transform: translateY(-2px);
+        }
+
+        .results-section h3 {
+            font-size: 18px;
+            color: #202124;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .results-box {
+            background: white;
+            border: 1px solid #DADCE0;
+            border-radius: 15px;
+            padding: 20px;
+            min-height: 300px;
+            max-height: 500px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            color: #202124;
+        }
+
+        .results-box::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .results-box::-webkit-scrollbar-track {
+            background: #F1F3F4;
+            border-radius: 10px;
+        }
+
+        .results-box::-webkit-scrollbar-thumb {
+            background: #1A73E8;
+            border-radius: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            font-size: 14px;
+            margin-top: 20px;
+            opacity: 0.9;
+        }
+
+        /* Modal untuk daftar penal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 900px;
+            margin: 50px auto;
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #F1F3F4;
+        }
+
+        .modal-header h2 {
+            font-size: 24px;
+            color: #202124;
+        }
+
+        .close-btn {
+            font-size: 30px;
+            color: #5F6368;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
             width: 30px;
             height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-        
-        .helper-text {
-            font-size: 12px;
-            color: #666;
-            margin-top: 8px;
-        }
-        
-        /* Buttons */
-        .button-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .btn {
-            padding: 15px;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
             transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
         }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+
+        .close-btn:hover {
+            background: #F1F3F4;
+            color: #202124;
         }
-        
-        .btn-primary:active {
-            transform: scale(0.98);
+
+        .search-modal {
+            margin-bottom: 20px;
         }
-        
-        .btn-secondary {
-            background: #f5f5f5;
-            color: #333;
+
+        .search-modal input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #DADCE0;
+            border-radius: 50px;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s;
         }
-        
-        .btn-secondary:active {
-            background: #e0e0e0;
+
+        .search-modal input:focus {
+            border-color: #1A73E8;
         }
-        
-        /* Results */
-        .results-section {
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            display: none;
-            animation: slideUp 0.3s;
+
+        .penal-list {
+            max-height: 500px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            padding: 15px;
+            background: #F8F9FA;
+            border-radius: 10px;
         }
-        
-        .results-section.show {
-            display: block;
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .title-section h1 {
+                font-size: 24px;
+            }
+
+            .button-container {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            body::before {
+                width: 400px;
+                height: 400px;
+                opacity: 0.05;
+            }
         }
-        
-        @keyframes slideUp {
+
+        /* Animation */
+        @keyframes fadeIn {
             from {
                 opacity: 0;
                 transform: translateY(20px);
@@ -190,274 +359,9 @@
                 transform: translateY(0);
             }
         }
-        
-        .results-header {
-            font-size: 18px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #f0f0f0;
-        }
-        
-        .penal-item {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 10px;
-        }
-        
-        .penal-code {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        
-        .penal-name {
-            font-size: 15px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 5px;
-        }
-        
-        .penal-desc {
-            font-size: 13px;
-            color: #666;
-            margin-bottom: 8px;
-        }
-        
-        .penal-penalty {
-            display: flex;
-            gap: 15px;
-            font-size: 13px;
-        }
-        
-        .penalty-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .penalty-label {
-            color: #888;
-        }
-        
-        .penalty-value {
-            font-weight: 600;
-            color: #333;
-        }
-        
-        /* Total Section */
-        .total-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 15px;
-            color: white;
-        }
-        
-        .total-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            opacity: 0.9;
-        }
-        
-        .total-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            font-size: 15px;
-        }
-        
-        .total-value {
-            font-size: 20px;
-            font-weight: 700;
-        }
-        
-        .max-warning {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            padding: 12px;
-            margin-top: 10px;
-            font-size: 13px;
-        }
-        
-        .max-warning strong {
-            display: block;
-            margin-bottom: 5px;
-        }
-        
-        /* Modal List */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 1000;
-            overflow-y: auto;
-        }
-        
-        .modal.show {
-            display: block;
-            animation: fadeIn 0.3s;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .modal-content {
-            background: white;
-            max-width: 600px;
-            margin: 20px auto;
-            border-radius: 20px 20px 0 0;
-            min-height: calc(100vh - 40px);
-            padding: 20px;
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #f0f0f0;
-        }
-        
-        .modal-header h2 {
-            font-size: 20px;
-            color: #333;
-        }
-        
-        .close-btn {
-            background: #f5f5f5;
-            border: none;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            font-size: 24px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .search-box {
-            margin-bottom: 15px;
-        }
-        
-        .search-box input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 15px;
-        }
-        
-        .penal-list {
-            max-height: calc(100vh - 250px);
-            overflow-y: auto;
-        }
-        
-        .penal-category {
-            margin-bottom: 20px;
-        }
-        
-        .category-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: white;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 10px 15px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-        
-        .penal-list-item {
-            background: #f8f9fa;
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .penal-list-item:active {
-            background: #e9ecef;
-            transform: scale(0.98);
-        }
-        
-        .penal-list-item-code {
-            font-weight: 600;
-            color: #667eea;
-            margin-right: 8px;
-        }
-        
-        .penal-list-item-name {
-            font-size: 14px;
-            color: #333;
-        }
-        
-        /* Loading */
-        .loading {
-            text-align: center;
-            padding: 20px;
-            display: none;
-        }
-        
-        .loading.show {
-            display: block;
-        }
-        
-        .spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Error */
-        .error-section {
-            background: #fff3cd;
-            border: 2px solid #ffc107;
-            border-radius: 12px;
-            padding: 15px;
-            margin-top: 15px;
-            display: none;
-        }
-        
-        .error-section.show {
-            display: block;
-        }
-        
-        .error-title {
-            font-weight: 600;
-            color: #856404;
-            margin-bottom: 5px;
-        }
-        
-        .error-message {
-            font-size: 14px;
-            color: #856404;
+
+        .container > * {
+            animation: fadeIn 0.5s ease-out;
         }
     </style>
 </head>
@@ -465,164 +369,227 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <div class="logo">🏛️</div>
-            <div class="header-text">
+            <div class="logo-container">
+                <img src="assets/img/gcpd_logo.png" alt="GCPD Logo" id="logoImage" onerror="this.style.display='none'; document.getElementById('logoText').style.display='flex';">
+                <div class="logo-text" id="logoText" style="display: none;">GCPD</div>
+            </div>
+            <div class="title-section">
                 <h1>Grand Country</h1>
-                <p>Penal Calculator</p>
+                <p>Penal Calculator - Kalkulator Denda & Waktu Penjara</p>
             </div>
         </div>
-        
-        <!-- Input Section -->
-        <div class="input-section">
-            <label for="penalInput">Masukkan Kode Penal</label>
-            <div class="input-wrapper">
-                <input type="text" 
-                       id="penalInput" 
-                       placeholder="Contoh: 1B, 4A, 6C, 7J"
-                       autocomplete="off">
-                <button class="clear-btn" onclick="clearInput()">×</button>
-            </div>
-            <div class="helper-text">
-                💡 Pisahkan dengan koma untuk multiple kode
-            </div>
-            
-            <div class="button-group">
-                <button class="btn btn-primary" onclick="calculate()">
-                    <span>🔍</span> Hitung
-                </button>
-                <button class="btn btn-secondary" onclick="openModal()">
-                    <span>📋</span> Daftar Kode
-                </button>
-            </div>
-        </div>
-        
-        <!-- Loading -->
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p style="margin-top: 10px; color: white;">Menghitung...</p>
-        </div>
-        
-        <!-- Error -->
-        <div class="error-section" id="errorSection">
-            <div class="error-title">⚠️ Kode Tidak Ditemukan</div>
-            <div class="error-message" id="errorMessage"></div>
-        </div>
-        
-        <!-- Results -->
-        <div class="results-section" id="resultsSection">
-            <div class="results-header">Detail Pelanggaran</div>
-            <div id="penalList"></div>
-            
-            <div class="total-section">
-                <div class="total-title">Total Hukuman</div>
-                <div class="total-item">
-                    <span>Total Denda</span>
-                    <span class="total-value" id="totalDenda">$0</span>
+
+        <!-- Main Card -->
+        <div class="main-card">
+            <!-- Search Box -->
+            <div class="search-container">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="inputCode" placeholder="Masukkan kode penal (contoh: 1B, 4A, 6C, 7J)">
                 </div>
-                <div class="total-item">
-                    <span>Total Penjara</span>
-                    <span class="total-value" id="totalPenjara">0 bulan</span>
-                </div>
-                <div class="max-warning" id="maxWarning" style="display: none;">
-                    <strong>⚠️ MELEBIHI MAKSIMAL!</strong>
-                    Total penjara melebihi 90 bulan. Maksimal 90 bulan (7 tahun 6 bulan) diterapkan.
+                <p class="helper-text">Pisahkan kode dengan koma. Tekan Enter atau klik Hitung.</p>
+            </div>
+
+            <!-- Buttons -->
+            <div class="button-container">
+                <button class="btn btn-primary" onclick="calculate()">Hitung</button>
+                <button class="btn btn-secondary" onclick="clearAll()">Clear</button>
+                <button class="btn btn-secondary" onclick="showPenalList()">Daftar Kode</button>
+            </div>
+
+            <!-- Results -->
+            <div class="results-section">
+                <h3>📊 Hasil Perhitungan</h3>
+                <div class="results-box" id="resultsBox">
+Belum ada perhitungan. 
+Masukkan kode penal di atas dan klik Hitung.
+
+Contoh: 1B, 4A, 6C, 7J
                 </div>
             </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            © 2026 Grand Country Roleplay
         </div>
     </div>
-    
+
     <!-- Modal Daftar Penal -->
-    <div class="modal" id="modal">
+    <div class="modal" id="penalModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Daftar Kode Penal</h2>
-                <button class="close-btn" onclick="closeModal()">×</button>
+                <h2>Daftar Lengkap Kode Penal</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
             </div>
-            
-            <div class="search-box">
-                <input type="text" 
-                       id="searchInput" 
-                       placeholder="🔍 Cari kode atau nama..."
-                       oninput="searchPenal()">
+            <div class="search-modal">
+                <input type="text" id="searchModal" placeholder="Cari kode atau nama pelanggaran..." onkeyup="filterPenalList()">
             </div>
-            
-            <div class="penal-list" id="modalPenalList"></div>
+            <div class="penal-list" id="penalListContent"></div>
         </div>
     </div>
-    
+
     <script>
-        // Database Penal (condensed version)
+        // Database Penal
         const PENAL_DATA = {
-            "1A": {nama: "General Traffic Violations", desc: "Pelanggaran lalu lintas umum", denda: 1000, penjara: 0},
-            "1B": {nama: "Failed to Pay Fine", desc: "Menolak bayar denda", denda: 1500, penjara: 5},
-            "1C-A": {nama: "No License - Kendaraan", desc: "Mengemudi tanpa SIM", denda: 1000, penjara: 5},
-            "1C-B": {nama: "No License - Kapal", desc: "Kapal tanpa izin", denda: 2000, penjara: 10},
-            "1C-C": {nama: "No License - Truk Ringan", desc: "Truk ringan tanpa lisensi", denda: 2000, penjara: 15},
-            "1C-D": {nama: "No License - Truk Berat", desc: "Truk berat tanpa lisensi", denda: 3000, penjara: 20},
-            "1C-E": {nama: "No License - Pesawat", desc: "Pesawat tanpa izin", denda: 4000, penjara: 30},
-            "1D": {nama: "Reckless Driving", desc: "Mengemudi ugal-ugalan", denda: 1000, penjara: 0},
-            "1E": {nama: "Speeding", desc: "Melebihi batas kecepatan", denda: 1000, penjara: 0},
-            "1F": {nama: "Improper Parking", desc: "Parkir sembarangan", denda: 1000, penjara: 0},
-            "1G": {nama: "Illegal Modifications", desc: "Modifikasi ilegal", denda: 1500, penjara: 0},
-            "1H": {nama: "Unregistered Vehicles", desc: "Kendaraan tidak terdaftar", denda: 1000, penjara: 0},
-            "1I": {nama: "Vehicular Endangerment", desc: "Menabrak tanpa pertolongan", denda: 2000, penjara: 15},
-            "1J": {nama: "Vehicle Manslaughter", desc: "Membunuh dengan kendaraan", denda: 4000, penjara: 30},
-            "1K": {nama: "DWI or DUI", desc: "Mengemudi di bawah pengaruh", denda: 2000, penjara: 20},
-            "1L": {nama: "Illegal Street Racing", desc: "Balapan liar", denda: 3000, penjara: 20},
-            "1M": {nama: "Evading from LEO", desc: "Kabur dari petugas", denda: 3000, penjara: 20},
-            "3A": {nama: "Drug Possession (Small)", desc: "Narkoba 1-50 gram", denda: 2000, penjara: 20},
-            "3B": {nama: "Drug Possession (Large)", desc: "Narkoba 51-100 gram", denda: 3000, penjara: 30},
-            "3C": {nama: "IUI or IWI", desc: "Di bawah pengaruh narkoba", denda: 2000, penjara: 30},
-            "3D": {nama: "Selling/Distributing Drugs", desc: "Menjual narkoba", denda: 4000, penjara: 30},
-            "3E": {nama: "Drug Manufacturing", desc: "Memproduksi narkoba", denda: 5000, penjara: 40},
-            "3G": {nama: "Drug Smuggler", desc: "Menyelundupkan narkoba", denda: 5000, penjara: 30},
-            "3H": {nama: "Drug Dealer", desc: "Dealer narkoba", denda: 6000, penjara: 40},
-            "4A": {nama: "Intimidation", desc: "Intimidasi/mengancam", denda: 2000, penjara: 10},
-            "4B": {nama: "Assault", desc: "Penyerangan", denda: 2000, penjara: 15},
-            "4C": {nama: "Assault with Deadly Weapons", desc: "Penyerangan dgn senjata", denda: 4000, penjara: 30},
-            "4F": {nama: "Attempted Murder", desc: "Percobaan pembunuhan", denda: 5000, penjara: 25},
-            "4G": {nama: "Murder", desc: "Pembunuhan", denda: 6000, penjara: 30},
-            "4J": {nama: "Melee Robbery", desc: "Perampokan dengan kekerasan", denda: 5000, penjara: 30},
-            "4K": {nama: "Armed Robbery", desc: "Perampokan bersenjata", denda: 7000, penjara: 40},
-            "4N": {nama: "Grand Theft Auto", desc: "Pencurian kendaraan", denda: 3000, penjara: 25},
-            "4Q": {nama: "Kidnapping", desc: "Penculikan", denda: 7000, penjara: 50},
-            "4R": {nama: "Hostage Taking", desc: "Penyanderaan", denda: 10000, penjara: 60},
-            "4Y": {nama: "Rob ATM & Mart", desc: "Merampok ATM/Mart", denda: 15000, penjara: 50},
-            "4Z": {nama: "Rob Bank", desc: "Merampok Bank", denda: 20000, penjara: 60},
-            "5A": {nama: "Sharp/Blunt Weapons", desc: "Senjata tajam/tumpul", denda: 2000, penjara: 20},
-            "5B": {nama: "Illegal Firearms", desc: "Senjata tanpa nomor seri", denda: 4000, penjara: 20},
-            "5C": {nama: "Firearms Without License", desc: "Senjata tanpa lisensi", denda: 3000, penjara: 25},
-            "5F": {nama: "Brandishing Firearm", desc: "Mengacungkan senjata", denda: 4000, penjara: 25},
-            "6A": {nama: "Initiating Riot", desc: "Memulai kerusuhan", denda: 2500, penjara: 25},
-            "6C": {nama: "Participating in Riot", desc: "Ikut kerusuhan", denda: 2000, penjara: 20},
-            "6I": {nama: "Vigilantism", desc: "Main hakim sendiri", denda: 3000, penjara: 30},
-            "6J": {nama: "Disturbing Peace", desc: "Mengganggu ketenangan", denda: 2000, penjara: 20},
-            "6K": {nama: "Brawl in Public", desc: "Tawuran di publik", denda: 4000, penjara: 30},
-            "7A": {nama: "Obstruction of Justice", desc: "Menghalangi petugas", denda: 2500, penjara: 20},
-            "7B": {nama: "Abusing Hotline", desc: "Penyalahgunaan 911", denda: 2000, penjara: 10},
-            "7D": {nama: "Impersonating Gov Staff", desc: "Menyamar jadi petugas", denda: 5000, penjara: 30},
-            "7E": {nama: "Bribery", desc: "Menyuap petugas", denda: 5000, penjara: 35},
-            "7J": {nama: "Assaulting LEO", desc: "Menyerang petugas", denda: 5000, penjara: 30},
-            "7K": {nama: "Attempted Murder Official", desc: "Coba bunuh pejabat", denda: 8000, penjara: 40},
-            "7L": {nama: "Murder Official", desc: "Bunuh pejabat", denda: 10000, penjara: 50},
-            "7N": {nama: "Fraud/Scam", desc: "Penipuan", denda: 5000, penjara: 30},
-            "7P": {nama: "Corruption", desc: "Korupsi", denda: 20000, penjara: 90},
-            "8A": {nama: "Trespassing", desc: "Masuk properti tanpa izin", denda: 3000, penjara: 20},
-            "8C": {nama: "Vandalism", desc: "Merusak properti", denda: 3000, penjara: 30},
-            "8G": {nama: "Burglary", desc: "Merampok properti", denda: 7000, penjara: 50},
-            "9A": {nama: "Brawl Against Inmate", desc: "Tawuran di penjara", denda: 0, penjara: 20},
-            "9B": {nama: "Jailbreak", desc: "Kabur dari penjara", denda: 0, penjara: 40}
+            // PENAL 1 - Traffic and Vehicle Violations
+            "1A": {"nama": "General Traffic Violations", "deskripsi": "Mengemudi di jalur salah, putar balik ilegal, dll", "denda": 1000, "penjara": 0},
+            "1B": {"nama": "Failed or Refuse to Pay Fine", "deskripsi": "Tidak dapat atau menolak membayar denda", "denda": 1500, "penjara": 5},
+            "1C-A": {"nama": "No License - Kendaraan Umum", "deskripsi": "Mengemudi tanpa SIM", "denda": 1000, "penjara": 5},
+            "1C-B": {"nama": "No License - Kapal Laut", "deskripsi": "Kapal tanpa izin", "denda": 2000, "penjara": 10},
+            "1C-C": {"nama": "No License - Truk Ringan", "deskripsi": "Truk ringan tanpa lisensi", "denda": 2000, "penjara": 15},
+            "1C-D": {"nama": "No License - Truk Berat", "deskripsi": "Truk berat tanpa lisensi", "denda": 3000, "penjara": 20},
+            "1C-E": {"nama": "No License - Pesawat/Heli", "deskripsi": "Pesawat/helikopter tanpa izin", "denda": 4000, "penjara": 30},
+            "1D": {"nama": "Reckless Driving", "deskripsi": "Mengemudi ugal-ugalan", "denda": 1000, "penjara": 0},
+            "1E": {"nama": "Speeding", "deskripsi": "Melebihi batas kecepatan", "denda": 1000, "penjara": 0},
+            "1F": {"nama": "Improper Parking", "deskripsi": "Parkir sembarangan", "denda": 1000, "penjara": 0},
+            "1G": {"nama": "Illegal Modifications", "deskripsi": "Modifikasi ilegal", "denda": 1500, "penjara": 0},
+            "1H": {"nama": "Unregistered Vehicles", "deskripsi": "Kendaraan tidak terdaftar", "denda": 1000, "penjara": 0},
+            "1I": {"nama": "Vehicular Endangerment", "deskripsi": "Menabrak tanpa pertolongan", "denda": 2000, "penjara": 15},
+            "1J": {"nama": "Vehicle Manslaughter", "deskripsi": "Membunuh dengan kendaraan", "denda": 4000, "penjara": 30},
+            "1K": {"nama": "DWI or DUI", "deskripsi": "Mengemudi di bawah pengaruh", "denda": 2000, "penjara": 20},
+            "1L": {"nama": "Illegal Street Racing", "deskripsi": "Balapan liar", "denda": 3000, "penjara": 20},
+            "1M": {"nama": "Evading from LEO", "deskripsi": "Kabur dari petugas", "denda": 3000, "penjara": 20},
+            "1N": {"nama": "Flight Regulations", "deskripsi": "Melanggar aturan terbang", "denda": 3000, "penjara": 0},
+            "1O": {"nama": "Emergency Landing", "deskripsi": "Pendaratan darurat tanpa izin", "denda": 3000, "penjara": 0},
+            "1P": {"nama": "Failure to Yield Emergency", "deskripsi": "Tidak beri jalan darurat", "denda": 1000, "penjara": 0},
+            "1Q": {"nama": "Failure to Yield Roadblock", "deskripsi": "Menerobos roadblock", "denda": 2000, "penjara": 0},
+            "1R": {"nama": "Following Emergency Vehicle", "deskripsi": "Mengikuti kendaraan darurat", "denda": 2000, "penjara": 0},
+            "1S": {"nama": "Altering Vehicle ID", "deskripsi": "Mengubah nomor kendaraan", "denda": 2000, "penjara": 20},
+            "1T": {"nama": "Heavy Truck in City", "deskripsi": "Truk besar masuk kota", "denda": 3000, "penjara": 0},
+            "1U": {"nama": "Drugs in Trunk", "deskripsi": "Narkoba di bagasi", "denda": 5000, "penjara": 0},
+            "1V": {"nama": "Marijuana in Trunk", "deskripsi": "Ganja di bagasi", "denda": 4000, "penjara": 0},
+            "1W": {"nama": "Gun Materials in Trunk", "deskripsi": "Bahan senjata di bagasi", "denda": 5000, "penjara": 0},
+            "1X": {"nama": "Gun Bullets in Trunk", "deskripsi": "Peluru di bagasi", "denda": 5000, "penjara": 0},
+            "1Y-1": {"nama": "Weapon in Trunk (1 slot)", "deskripsi": "1 senjata di bagasi", "denda": 5000, "penjara": 0},
+            "1Y-2": {"nama": "Weapon in Trunk (2 slots)", "deskripsi": "2 senjata di bagasi", "denda": 6000, "penjara": 0},
+            "1Y-3": {"nama": "Weapon in Trunk (3 slots)", "deskripsi": "3 senjata di bagasi", "denda": 7000, "penjara": 0},
+            "1Y-4": {"nama": "Weapon in Trunk (4 slots)", "deskripsi": "4 senjata di bagasi", "denda": 8000, "penjara": 0},
+            "1Y-5": {"nama": "Weapon in Trunk (5 slots)", "deskripsi": "5 senjata di bagasi", "denda": 9000, "penjara": 0},
+            "1Z": {"nama": "Inappropriate Stickers", "deskripsi": "Stiker tidak pantas", "denda": 2000, "penjara": 20},
+            
+            // PENAL 2 - Licenses
+            "2D": {"nama": "Illegal Lumberjack", "deskripsi": "Penebangan liar", "denda": 2000, "penjara": 15},
+            "2F": {"nama": "Small Illegal Event", "deskripsi": "Acara kecil ilegal", "denda": 5000, "penjara": 15},
+            "2G": {"nama": "Big Illegal Event", "deskripsi": "Acara besar ilegal", "denda": 7000, "penjara": 25},
+            
+            // PENAL 3 - Drug Offenses
+            "3A": {"nama": "Drug Possession (Small)", "deskripsi": "Narkoba 1-50 gram", "denda": 2000, "penjara": 20},
+            "3B": {"nama": "Drug Possession (Large)", "deskripsi": "Narkoba 51-100 gram", "denda": 3000, "penjara": 30},
+            "3C": {"nama": "IUI or IWI", "deskripsi": "Di bawah pengaruh narkoba", "denda": 2000, "penjara": 30},
+            "3D": {"nama": "Selling/Distributing Drugs", "deskripsi": "Menjual/distribusi narkoba", "denda": 4000, "penjara": 30},
+            "3E": {"nama": "Drug Manufacturing", "deskripsi": "Memproduksi narkoba", "denda": 5000, "penjara": 40},
+            "3F": {"nama": "Present for Drug Use", "deskripsi": "Hadir di pesta narkoba", "denda": 2000, "penjara": 20},
+            "3G": {"nama": "Drug Smuggler", "deskripsi": "Menyelundupkan narkoba", "denda": 5000, "penjara": 30},
+            "3H": {"nama": "Drug Dealer", "deskripsi": "Dealer narkoba", "denda": 6000, "penjara": 40},
+            
+            // PENAL 4 - Violent Crimes
+            "4A": {"nama": "Intimidation", "deskripsi": "Intimidasi/mengancam", "denda": 2000, "penjara": 10},
+            "4B": {"nama": "Assault", "deskripsi": "Penyerangan", "denda": 2000, "penjara": 15},
+            "4C": {"nama": "Assault with Deadly Weapons", "deskripsi": "Penyerangan dgn senjata", "denda": 4000, "penjara": 30},
+            "4D": {"nama": "Battery", "deskripsi": "Kontak fisik tanpa izin", "denda": 2000, "penjara": 20},
+            "4E": {"nama": "Aggravated Battery", "deskripsi": "Kontak fisik berbahaya", "denda": 3000, "penjara": 25},
+            "4F": {"nama": "Attempted Murder", "deskripsi": "Percobaan pembunuhan", "denda": 5000, "penjara": 25},
+            "4G": {"nama": "Murder", "deskripsi": "Pembunuhan", "denda": 6000, "penjara": 30},
+            "4H": {"nama": "Group Criminal Assault", "deskripsi": "Penyerangan berkelompok", "denda": 5000, "penjara": 30},
+            "4I": {"nama": "Drive-By Shooting", "deskripsi": "Penembakan dari kendaraan", "denda": 5000, "penjara": 25},
+            "4J": {"nama": "Melee Robbery", "deskripsi": "Perampokan dengan kekerasan", "denda": 5000, "penjara": 30},
+            "4K": {"nama": "Armed Robbery", "deskripsi": "Perampokan bersenjata", "denda": 7000, "penjara": 40},
+            "4L": {"nama": "Piracy", "deskripsi": "Pembajakan kapal", "denda": 3000, "penjara": 20},
+            "4M": {"nama": "Grand Theft", "deskripsi": "Pencurian properti >$1,000", "denda": 4000, "penjara": 30},
+            "4N": {"nama": "Grand Theft Auto", "deskripsi": "Pencurian kendaraan", "denda": 3000, "penjara": 25},
+            "4O": {"nama": "Grand Theft of Firearms", "deskripsi": "Pencurian senjata", "denda": 5000, "penjara": 30},
+            "4P": {"nama": "Abuse of Dead Body", "deskripsi": "Pelecehan mayat", "denda": 4000, "penjara": 30},
+            "4Q": {"nama": "Kidnapping", "deskripsi": "Penculikan", "denda": 7000, "penjara": 50},
+            "4R": {"nama": "Hostage Taking", "deskripsi": "Penyanderaan", "denda": 10000, "penjara": 60},
+            "4S": {"nama": "Torture", "deskripsi": "Penyiksaan", "denda": 8000, "penjara": 40},
+            "4T": {"nama": "Blackmail", "deskripsi": "Pemerasan", "denda": 3000, "penjara": 20},
+            "4U": {"nama": "Human Trafficking", "deskripsi": "Perdagangan manusia", "denda": 10000, "penjara": 60},
+            "4V": {"nama": "Sexual Harassment", "deskripsi": "Pelecehan seksual", "denda": 3000, "penjara": 20},
+            "4W": {"nama": "Rape", "deskripsi": "Pemerkosaan", "denda": 5000, "penjara": 30},
+            "4X": {"nama": "Prostitution", "deskripsi": "Prostitusi", "denda": 4000, "penjara": 25},
+            "4Y": {"nama": "Rob ATM & Mart", "deskripsi": "Merampok ATM/Mart", "denda": 15000, "penjara": 50},
+            "4Z": {"nama": "Rob Bank", "deskripsi": "Merampok Bank", "denda": 20000, "penjara": 60},
+            
+            // PENAL 5 - Weapons
+            "5A": {"nama": "Sharp/Blunt Weapons", "deskripsi": "Senjata tajam/tumpul", "denda": 2000, "penjara": 20},
+            "5B": {"nama": "Illegal Firearms", "deskripsi": "Senjata tanpa nomor seri", "denda": 4000, "penjara": 20},
+            "5C": {"nama": "Firearms Without License", "deskripsi": "Senjata tanpa lisensi", "denda": 3000, "penjara": 25},
+            "5D": {"nama": "Weapon Materials", "deskripsi": "Bahan pembuatan senjata", "denda": 3000, "penjara": 20},
+            "5F": {"nama": "Brandishing Firearm", "deskripsi": "Mengacungkan senjata", "denda": 4000, "penjara": 25},
+            "5G": {"nama": "Unlawful Discharge", "deskripsi": "Menembak sembarangan", "denda": 2000, "penjara": 20},
+            "5H": {"nama": "Body Armor", "deskripsi": "Pelindung tubuh", "denda": 2000, "penjara": 10},
+            "5I": {"nama": "Weapon Trafficking", "deskripsi": "Penyelundupan senjata", "denda": 5000, "penjara": 30},
+            "5J": {"nama": "Arms Dealer", "deskripsi": "Dealer senjata", "denda": 6000, "penjara": 35},
+            "5K": {"nama": "Firearms Manufacturing", "deskripsi": "Pembuatan senjata ilegal", "denda": 7000, "penjara": 40},
+            "5L": {"nama": "Arms Smuggler", "deskripsi": "Penyelundup senjata", "denda": 5000, "penjara": 30},
+            
+            // PENAL 6 - Public Order
+            "6A": {"nama": "Initiating Riot", "deskripsi": "Memulai kerusuhan", "denda": 2500, "penjara": 25},
+            "6B": {"nama": "Failing to Disperse", "deskripsi": "Menolak bubar", "denda": 1500, "penjara": 10},
+            "6C": {"nama": "Participating in Riot", "deskripsi": "Ikut kerusuhan", "denda": 2000, "penjara": 20},
+            "6D": {"nama": "Spitting in Public", "deskripsi": "Meludah di publik", "denda": 1000, "penjara": 0},
+            "6E": {"nama": "Pee in Public", "deskripsi": "BAK di publik", "denda": 1000, "penjara": 0},
+            "6F": {"nama": "Drunk in Public", "deskripsi": "Mabuk di publik", "denda": 1000, "penjara": 0},
+            "6G": {"nama": "Vilification", "deskripsi": "Memfitnah", "denda": 2000, "penjara": 20},
+            "6H": {"nama": "Hate Speech", "deskripsi": "Ujaran kebencian", "denda": 2500, "penjara": 20},
+            "6I": {"nama": "Vigilantism", "deskripsi": "Main hakim sendiri", "denda": 3000, "penjara": 30},
+            "6J": {"nama": "Disturbing Peace", "deskripsi": "Mengganggu ketenangan", "denda": 2000, "penjara": 20},
+            "6K": {"nama": "Brawl in Public", "deskripsi": "Tawuran di publik", "denda": 4000, "penjara": 30},
+            "6L": {"nama": "Accessories Disturbance", "deskripsi": "Aksesoris mengganggu", "denda": 1000, "penjara": 0},
+            "6M": {"nama": "Jaywalk", "deskripsi": "Menyeberang sembarangan", "denda": 1000, "penjara": 0},
+            "6N": {"nama": "Littering", "deskripsi": "Buang sampah sembarangan", "denda": 1500, "penjara": 0},
+            "6O": {"nama": "Unlawful Assembly", "deskripsi": "Berkumpul melawan hukum", "denda": 1500, "penjara": 20},
+            "6P": {"nama": "Stalking", "deskripsi": "Menguntit", "denda": 2000, "penjara": 20},
+            "6Q": {"nama": "Public Intoxication", "deskripsi": "Mabuk mengganggu", "denda": 1500, "penjara": 10},
+            "6R": {"nama": "Animal Abuse", "deskripsi": "Menyakiti hewan", "denda": 1500, "penjara": 20},
+            "6S": {"nama": "Animal Cruelty", "deskripsi": "Kekejaman terhadap hewan", "denda": 1500, "penjara": 0},
+            "6T": {"nama": "Slander", "deskripsi": "Fitnah", "denda": 1500, "penjara": 20},
+            "6U": {"nama": "Naked in Public", "deskripsi": "Telanjang di publik", "denda": 2500, "penjara": 15},
+            "6V": {"nama": "Sexual Action in Public", "deskripsi": "Seks di publik", "denda": 3000, "penjara": 25},
+            
+            // PENAL 7 - Government
+            "7A": {"nama": "Obstruction of Justice", "deskripsi": "Menghalangi petugas", "denda": 2500, "penjara": 20},
+            "7B": {"nama": "Abusing Hotline", "deskripsi": "Penyalahgunaan 911", "denda": 2000, "penjara": 10},
+            "7C": {"nama": "Government Attribute", "deskripsi": "Atribut pemerintah", "denda": 1500, "penjara": 20},
+            "7D": {"nama": "Impersonating Gov Staff", "deskripsi": "Menyamar jadi petugas", "denda": 5000, "penjara": 30},
+            "7E": {"nama": "Bribery", "deskripsi": "Menyuap petugas", "denda": 5000, "penjara": 35},
+            "7F": {"nama": "Bribing Witnesses", "deskripsi": "Menyuap saksi", "denda": 2500, "penjara": 20},
+            "7G": {"nama": "False Report", "deskripsi": "Laporan palsu", "denda": 3000, "penjara": 20},
+            "7H": {"nama": "False Info to Police", "deskripsi": "Info palsu ke polisi", "denda": 2000, "penjara": 10},
+            "7I": {"nama": "Perjury", "deskripsi": "Bohong di bawah sumpah", "denda": 2500, "penjara": 30},
+            "7J": {"nama": "Assaulting LEO", "deskripsi": "Menyerang petugas", "denda": 5000, "penjara": 30},
+            "7K": {"nama": "Attempted Murder Official", "deskripsi": "Coba bunuh pejabat", "denda": 8000, "penjara": 40},
+            "7L": {"nama": "Murder Official", "deskripsi": "Bunuh pejabat", "denda": 10000, "penjara": 50},
+            "7M": {"nama": "Harbouring Criminals", "deskripsi": "Sembunyikan penjahat", "denda": 10000, "penjara": 30},
+            "7N": {"nama": "Fraud/Scam", "deskripsi": "Penipuan", "denda": 5000, "penjara": 30},
+            "7O": {"nama": "Forgery", "deskripsi": "Pemalsuan dokumen", "denda": 4000, "penjara": 20},
+            "7P": {"nama": "Corruption", "deskripsi": "Korupsi", "denda": 20000, "penjara": 90},
+            
+            // PENAL 8 - Property
+            "8A": {"nama": "Trespassing", "deskripsi": "Masuk properti tanpa izin", "denda": 3000, "penjara": 20},
+            "8B": {"nama": "Trespassing Gov Property", "deskripsi": "Masuk gedung pemerintah", "denda": 2000, "penjara": 15},
+            "8C": {"nama": "Vandalism", "deskripsi": "Merusak properti", "denda": 3000, "penjara": 30},
+            "8D": {"nama": "Arson", "deskripsi": "Membakar properti", "denda": 3500, "penjara": 30},
+            "8E": {"nama": "Extortion", "deskripsi": "Pemerasan dengan kekerasan", "denda": 3000, "penjara": 35},
+            "8F": {"nama": "Property as Illegal Distro", "deskripsi": "Properti distribusi ilegal", "denda": 6000, "penjara": 40},
+            "8G": {"nama": "Burglary", "deskripsi": "Merampok properti", "denda": 7000, "penjara": 50},
+            
+            // PENAL 9 - Prison
+            "9A": {"nama": "Brawl Against Inmate", "deskripsi": "Tawuran di penjara", "denda": 0, "penjara": 20},
+            "9B": {"nama": "Jailbreak", "deskripsi": "Kabur dari penjara", "denda": 0, "penjara": 40},
+            "9C": {"nama": "Inciting Riot in Prison", "deskripsi": "Hasut kerusuhan penjara", "denda": 0, "penjara": 20}
         };
-        
+
         // Format currency
         function formatCurrency(amount) {
             return '$' + amount.toLocaleString('en-US');
         }
-        
+
         // Format jail time
         function formatJailTime(months) {
             if (months === 0) return '0 bulan';
-            if (months < 12) return months + ' bulan';
+            if (months < 12) return `${months} bulan`;
             
             const years = Math.floor(months / 12);
             const remainingMonths = months % 12;
@@ -633,187 +600,155 @@
                 return `${months} bulan (${years} tahun ${remainingMonths} bulan)`;
             }
         }
-        
-        // Clear input
-        function clearInput() {
-            document.getElementById('penalInput').value = '';
-            document.getElementById('penalInput').focus();
-        }
-        
+
         // Calculate
         function calculate() {
-            const input = document.getElementById('penalInput').value.trim().toUpperCase();
+            const input = document.getElementById('inputCode').value.trim().toUpperCase();
+            const resultsBox = document.getElementById('resultsBox');
             
             if (!input) {
                 alert('Mohon masukkan kode penal!');
                 return;
             }
             
-            // Show loading
-            document.getElementById('loading').classList.add('show');
-            document.getElementById('resultsSection').classList.remove('show');
-            document.getElementById('errorSection').classList.remove('show');
+            const codes = input.split(',').map(c => c.trim());
+            let results = [];
+            let totalFine = 0;
+            let totalJail = 0;
+            let notFound = [];
             
-            setTimeout(() => {
-                const codes = input.split(',').map(c => c.trim());
-                const results = [];
-                const notFound = [];
-                let totalDenda = 0;
-                let totalPenjara = 0;
-                
-                codes.forEach(code => {
-                    if (PENAL_DATA[code]) {
-                        results.push({code, ...PENAL_DATA[code]});
-                        totalDenda += PENAL_DATA[code].denda;
-                        totalPenjara += PENAL_DATA[code].penjara;
-                    } else {
-                        notFound.push(code);
-                    }
-                });
-                
-                // Hide loading
-                document.getElementById('loading').classList.remove('show');
-                
-                if (results.length > 0) {
-                    displayResults(results, totalDenda, totalPenjara);
+            codes.forEach(code => {
+                if (PENAL_DATA[code]) {
+                    const data = PENAL_DATA[code];
+                    results.push({
+                        code: code,
+                        nama: data.nama,
+                        deskripsi: data.deskripsi,
+                        denda: data.denda,
+                        penjara: data.penjara
+                    });
+                    totalFine += data.denda;
+                    totalJail += data.penjara;
+                } else {
+                    notFound.push(code);
                 }
-                
-                if (notFound.length > 0) {
-                    document.getElementById('errorSection').classList.add('show');
-                    document.getElementById('errorMessage').textContent = 'Kode tidak ditemukan: ' + notFound.join(', ');
-                }
-            }, 500);
-        }
-        
-        // Display results
-        function displayResults(results, totalDenda, totalPenjara) {
-            const penalList = document.getElementById('penalList');
-            penalList.innerHTML = '';
-            
-            results.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'penal-item';
-                div.innerHTML = `
-                    <span class="penal-code">${item.code}</span>
-                    <div class="penal-name">${item.nama}</div>
-                    <div class="penal-desc">${item.desc}</div>
-                    <div class="penal-penalty">
-                        <div class="penalty-item">
-                            <span class="penalty-label">Denda:</span>
-                            <span class="penalty-value">${formatCurrency(item.denda)}</span>
-                        </div>
-                        <div class="penalty-item">
-                            <span class="penalty-label">Penjara:</span>
-                            <span class="penalty-value">${formatJailTime(item.penjara)}</span>
-                        </div>
-                    </div>
-                `;
-                penalList.appendChild(div);
             });
             
-            // Apply MAX 90 months cap
-            const originalPenjara = totalPenjara;
-            const cappedPenjara = totalPenjara > 90 ? 90 : totalPenjara;
+            // Display results
+            let output = '';
             
-            document.getElementById('totalDenda').textContent = formatCurrency(totalDenda);
-            document.getElementById('totalPenjara').textContent = formatJailTime(cappedPenjara);
-            
-            if (originalPenjara > 90) {
-                document.getElementById('maxWarning').style.display = 'block';
-            } else {
-                document.getElementById('maxWarning').style.display = 'none';
+            if (results.length > 0) {
+                output += '═══════════════════════════════════════════════════════════════\n';
+                output += '                    DETAIL PELANGGARAN\n';
+                output += '═══════════════════════════════════════════════════════════════\n\n';
+                
+                results.forEach((result, index) => {
+                    output += `${index + 1}. [${result.code}] ${result.nama}\n`;
+                    output += `   Deskripsi : ${result.deskripsi}\n`;
+                    output += `   Denda     : ${formatCurrency(result.denda)}\n`;
+                    output += `   Penjara   : ${formatJailTime(result.penjara)}\n\n`;
+                });
+                
+                output += '═══════════════════════════════════════════════════════════════\n';
+                output += '                       TOTAL HUKUMAN\n';
+                output += '═══════════════════════════════════════════════════════════════\n';
+                output += `Total Denda   : ${formatCurrency(totalFine)}\n`;
+                output += `Total Penjara : ${formatJailTime(totalJail)}\n`;
+                output += '═══════════════════════════════════════════════════════════════\n';
             }
             
-            document.getElementById('resultsSection').classList.add('show');
-            document.getElementById('resultsSection').scrollIntoView({behavior: 'smooth'});
-        }
-        
-        // Modal functions
-        function openModal() {
-            document.getElementById('modal').classList.add('show');
-            if (document.getElementById('modalPenalList').innerHTML === '') {
-                loadPenalList();
+            if (notFound.length > 0) {
+                output += `\n⚠️  KODE TIDAK DITEMUKAN: ${notFound.join(', ')}\n`;
             }
+            
+            resultsBox.textContent = output || 'Tidak ada hasil.';
         }
-        
+
+        // Clear all
+        function clearAll() {
+            document.getElementById('inputCode').value = '';
+            document.getElementById('resultsBox').textContent = 'Belum ada perhitungan. \nMasukkan kode penal di atas dan klik Hitung.\n\nContoh: 1B, 4A, 6C, 7J';
+        }
+
+        // Show penal list modal
+        function showPenalList() {
+            const modal = document.getElementById('penalModal');
+            modal.style.display = 'block';
+            loadPenalList();
+        }
+
+        // Close modal
         function closeModal() {
-            document.getElementById('modal').classList.remove('show');
+            const modal = document.getElementById('penalModal');
+            modal.style.display = 'none';
         }
-        
-        function loadPenalList() {
-            const list = document.getElementById('modalPenalList');
+
+        // Load penal list
+        function loadPenalList(searchTerm = '') {
+            const content = document.getElementById('penalListContent');
             const categories = {
-                '1': 'Traffic & Vehicle',
-                '3': 'Drug Offenses',
-                '4': 'Violent Crimes',
-                '5': 'Weapons Offenses',
-                '6': 'Public Order',
-                '7': 'Government Crimes',
-                '8': 'Property Crimes',
-                '9': 'Prison Offenses'
+                '1': 'PENAL 1 - Traffic & Vehicle',
+                '2': 'PENAL 2 - Licenses & Permits',
+                '3': 'PENAL 3 - Drug Offenses',
+                '4': 'PENAL 4 - Violent Crimes',
+                '5': 'PENAL 5 - Weapons Offenses',
+                '6': 'PENAL 6 - Public Order',
+                '7': 'PENAL 7 - Government Crimes',
+                '8': 'PENAL 8 - Property Crimes',
+                '9': 'PENAL 9 - Prison Offenses'
             };
             
-            let html = '';
+            let output = '';
             let currentCat = '';
             
-            Object.keys(PENAL_DATA).sort().forEach(code => {
+            const sortedCodes = Object.keys(PENAL_DATA).sort();
+            
+            sortedCodes.forEach(code => {
+                const data = PENAL_DATA[code];
                 const cat = code[0];
+                
+                // Filter search
+                if (searchTerm && 
+                    !code.toLowerCase().includes(searchTerm.toLowerCase()) && 
+                    !data.nama.toLowerCase().includes(searchTerm.toLowerCase())) {
+                    return;
+                }
+                
+                // Category header
                 if (cat !== currentCat) {
-                    html += `<div class="penal-category">
-                        <div class="category-title">PENAL ${cat} - ${categories[cat] || ''}</div>
-                    `;
+                    if (currentCat) output += '\n';
+                    output += `\n${'─'.repeat(75)}\n`;
+                    output += ` ${categories[cat] || 'PENAL ' + cat}\n`;
+                    output += `${'─'.repeat(75)}\n\n`;
                     currentCat = cat;
                 }
                 
-                const data = PENAL_DATA[code];
-                html += `
-                    <div class="penal-list-item" onclick="selectPenal('${code}')">
-                        <span class="penal-list-item-code">[${code}]</span>
-                        <span class="penal-list-item-name">${data.nama}</span>
-                    </div>
-                `;
+                output += `  [${code.padEnd(6)}] ${data.nama.padEnd(40)} ${formatCurrency(data.denda).padStart(12)} | ${formatJailTime(data.penjara)}\n`;
             });
             
-            html += '</div>';
-            list.innerHTML = html;
+            content.textContent = output || 'Tidak ada hasil.';
         }
-        
-        function selectPenal(code) {
-            const input = document.getElementById('penalInput');
-            const current = input.value.trim();
-            
-            if (current) {
-                input.value = current + ', ' + code;
-            } else {
-                input.value = code;
-            }
-            
-            closeModal();
+
+        // Filter penal list
+        function filterPenalList() {
+            const searchTerm = document.getElementById('searchModal').value;
+            loadPenalList(searchTerm);
         }
-        
-        function searchPenal() {
-            const search = document.getElementById('searchInput').value.toLowerCase();
-            const items = document.querySelectorAll('.penal-list-item');
-            
-            items.forEach(item => {
-                const text = item.textContent.toLowerCase();
-                item.style.display = text.includes(search) ? 'block' : 'none';
-            });
-        }
-        
-        // Enter key support
-        document.getElementById('penalInput').addEventListener('keypress', (e) => {
+
+        // Enter key to calculate
+        document.getElementById('inputCode').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 calculate();
             }
         });
-        
-        // Close modal on background click
-        document.getElementById('modal').addEventListener('click', (e) => {
-            if (e.target.id === 'modal') {
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('penalModal');
+            if (event.target === modal) {
                 closeModal();
             }
-        });
+        }
     </script>
 </body>
 </html>
